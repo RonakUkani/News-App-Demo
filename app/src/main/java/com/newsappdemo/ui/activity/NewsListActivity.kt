@@ -18,6 +18,7 @@ class NewsListActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
         newsListViewModel = viewModelProvider(viewModelFactory)
-        newsListViewModel.getNewsList(pageNumber.toString())
+//        newsListViewModel.getNewsList(pageNumber.toString())
+
     }
 }
