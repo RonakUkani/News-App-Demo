@@ -10,6 +10,8 @@ data class AppResponse(
     val articles: MutableList<Article> = mutableListOf(),
     @SerializedName("status")
     val status: String? = "",
+    @SerializedName("message")
+    val message: String = "",
     @SerializedName("totalResults")
     val totalResults: Int? = 0,
 ) : Parcelable {
@@ -43,7 +45,7 @@ data class AppResponse(
         ) : Parcelable
 
         enum class NewsEnum {
-            TOP_NEWS, POPULAR_NEWS, NEWS_DETAIL
+            TOP_NEWS, POPULAR_NEWS, NEWS_DETAIL, LOADING
         }
     }
 }

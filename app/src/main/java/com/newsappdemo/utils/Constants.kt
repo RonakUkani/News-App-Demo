@@ -8,4 +8,5 @@ object Constants {
     const val TOP_NEWS = 1
     const val POPULAR_NEWS = 2
     const val NEWS_DETAIL = 3
+    const val LOADING = 4
 }

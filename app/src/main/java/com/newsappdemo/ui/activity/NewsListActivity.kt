@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.newsappdemo.R
 import com.newsappdemo.data.AppResponse
 import com.newsappdemo.ui.adapter.NewsListAdapter
+import com.newsappdemo.utils.PaginationScrollListener
+import com.newsappdemo.utils.showToast
 import com.newsappdemo.utils.viewModelProvider
 import com.newsappdemo.viewmodel.NewsListViewModel
 import dagger.android.support.DaggerAppCompatActivity
@@ -21,6 +23,8 @@ class NewsListActivity : DaggerAppCompatActivity() {
     private var pageNumber = 1
     private var newsList: MutableList<AppResponse.Article> = mutableListOf()
     private val adapter = NewsListAdapter(newsList) {}
+    private var isLoading = false
+    private var isLastPage = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +37,30 @@ class NewsListActivity : DaggerAppCompatActivity() {
 
     private fun setAdapter() {
         recyclerViewNews.adapter = adapter
-        recyclerViewNews.layoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        recyclerViewNews.layoutManager = linearLayoutManager
+
+        recyclerViewNews.addOnScrollListener(object : PaginationScrollListener(linearLayoutManager) {
+            override fun loadMoreItems() {
+                isLoading = true
+                pageNumber += 1
+                newsListViewModel.getNewsList(pageNumber.toString())
+                isLoading = false
+            }
+
+            override var isLastPage: Boolean = this@NewsListActivity.isLastPage
+
+            override var isLoading: Boolean = this@NewsListActivity.isLoading
+
+        })
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeData() {
         newsListViewModel.newsListSuccess.observe(this, Observer {
+            if (pageNumber > 1){
+                this@NewsListActivity.isLoading = false
+            }
             if (it.status.equals("ok")) {
                 if (newsList.isEmpty()) {
                     for (i in 0 until it.articles.size) {
@@ -51,12 +73,17 @@ class NewsListActivity : DaggerAppCompatActivity() {
                     }
                 }
                 newsList.addAll(it?.articles!!)
+            }else{
+                isLastPage = true
             }
             adapter.notifyDataSetChanged()
         })
 
         newsListViewModel.newsListFailure.observe(this, Observer {
-
+            if (pageNumber > 1){
+                this@NewsListActivity.isLoading = false
+            }
+            isLastPage = true
         })
     }
 }
