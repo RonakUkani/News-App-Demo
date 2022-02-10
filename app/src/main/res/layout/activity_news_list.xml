@@ -9,7 +9,15 @@
 
     <include
         android:id="@+id/toolbar"
+        android:elevation="@dimen/_10sdp"
         layout="@layout/layout_news_list_toolbar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@color/color_view_divide_popular_news"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineStart"
@@ -26,13 +34,18 @@
         app:layout_constraintGuide_percent="0.96" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewNews"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:clipToPadding="false"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:listitem="@layout/row_top_news" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/row_popular_news" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

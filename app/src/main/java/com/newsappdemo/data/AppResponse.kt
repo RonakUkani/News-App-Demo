@@ -11,7 +11,7 @@ data class AppResponse(
     @SerializedName("status")
     val status: String? = "",
     @SerializedName("totalResults")
-    val totalResults: Int? = 0
+    val totalResults: Int? = 0,
 ) : Parcelable {
     @Parcelize
     data class Article(
@@ -30,14 +30,20 @@ data class AppResponse(
         @SerializedName("url")
         val url: String? = "",
         @SerializedName("urlToImage")
-        val urlToImage: String? = ""
+        val urlToImage: String? = "",
+        var isShowTitle: Boolean = false,
+        var newsEnum: NewsEnum = NewsEnum.POPULAR_NEWS,
     ) : Parcelable {
         @Parcelize
         data class Source(
             @SerializedName("id")
             val id: String? = "",
             @SerializedName("name")
-            val name: String? = ""
+            val name: String? = "",
         ) : Parcelable
+
+        enum class NewsEnum {
+            TOP_NEWS, POPULAR_NEWS, NEWS_DETAIL
+        }
     }
 }

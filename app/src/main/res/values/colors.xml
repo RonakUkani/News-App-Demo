@@ -5,10 +5,12 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="color_primary">#BDBDBD</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color_view_top_news">#5305FF</color>
     <color name="color_news_description_text">#777777</color>
     <color name="color_news_brand_text">#575757</color>
     <color name="color_news_assets_behind_drawable">#F3F3F3</color>
+    <color name="color_view_divide_popular_news">#D9D9D9</color>
 </resources>
