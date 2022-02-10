@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -11,7 +11,7 @@
         style="@style/BoldTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Popular News" />
+        android:text="@string/label_popular_news" />
 
     <View
         android:id="@+id/viewPopularNews"
@@ -24,8 +24,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewNewsHeadline"
-        android:layout_width="@dimen/_110sdp"
-        android:layout_height="@dimen/_110sdp"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +37,8 @@
         style="@style/HeadLineTextView"
         android:layout_marginStart="@dimen/_10sdp"
         android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
         android:textSize="@dimen/_16ssp"
         app:layout_constraintBottom_toTopOf="@+id/textViewNewsDescription"
         app:layout_constraintStart_toEndOf="@+id/imageViewNewsHeadline"
@@ -50,6 +52,8 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:maxLines="2"
         android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewBrandName"
         app:layout_constraintStart_toEndOf="@+id/imageViewNewsHeadline"
         app:layout_constraintTop_toBottomOf="@+id/textViewNewsHeadline"
@@ -61,24 +65,38 @@
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/bg_rectangle_icon"
-        android:paddingHorizontal="@dimen/_20sdp"
-        android:paddingVertical="@dimen/_5sdp"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingVertical="@dimen/_3sdp"
+        android:maxWidth="@dimen/_120sdp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewBookmark"
         android:textSize="@dimen/_10ssp"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewNewsHeadline"
         app:layout_constraintStart_toEndOf="@+id/imageViewNewsHeadline"
         app:layout_constraintTop_toBottomOf="@+id/textViewNewsDescription"
         tools:text="CNN" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/_32sdp"
-        android:layout_height="@dimen/_32sdp"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/bg_round_icon"
         android:padding="@dimen/_8sdp"
+        android:id="@+id/imageViewBookmark"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewNewsHeadline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewNewsDescription"
         app:srcCompat="@drawable/img_header_bookmark" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@color/color_view_divide_popular_news"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBrandName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/_15sdp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

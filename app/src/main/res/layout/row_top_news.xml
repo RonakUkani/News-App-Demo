@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -11,7 +11,7 @@
         style="@style/BoldTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Top News" />
+        android:text="@string/label_top_news" />
 
     <View
         android:id="@+id/viewTopNews"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewTopNews" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewNewsHeadline"
+        android:id="@+id/imageViewTopNewsHeadline"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_160sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -33,40 +33,42 @@
         tools:srcCompat="@android:drawable/ic_menu_report_image" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewNewsHeadline"
+        android:id="@+id/textViewTopNewsHeadline"
         style="@style/HeadLineTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewNewsHeadline"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTopNewsHeadline"
         tools:text="In 2011, were Maharashtra Andhashraddha Nirmoolan Samiti workers really arrested for Naxal links?" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewNewsDescription"
+        android:id="@+id/textViewTopNewsDescription"
         style="@style/DescriptionTextView"
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNewsHeadline"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTopNewsHeadline"
         tools:text="Since the Pune police’s crackdown on Maoist organizations and naxal supporters, a lot is being discussed about the action taken against Naxalites during the UPA regime.Today, Chidambaram…" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewBrandName"
+        android:id="@+id/textViewTopNewsBrandName"
         style="@style/DescriptionTextView"
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/bg_rectangle_icon"
         android:paddingHorizontal="@dimen/_20sdp"
         android:paddingVertical="@dimen/_5sdp"
         android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/_60sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNewsDescription"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTopNewsDescription"
         tools:text="CNN" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/_32sdp"
         android:layout_height="@dimen/_32sdp"
-        android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/bg_round_icon"
         android:padding="@dimen/_8sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewNewsDescription"
+        app:layout_constraintTop_toTopOf="@+id/textViewTopNewsBrandName"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTopNewsBrandName"
         app:srcCompat="@drawable/img_header_bookmark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
