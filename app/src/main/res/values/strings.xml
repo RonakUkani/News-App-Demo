@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">News-App-Demo</string>
+    <string name="error_message_unable_to_connect">Unable to connect to server!</string>
+    <string name="error_message_something_went_wrong">Something went wrong!</string>
+</resources>
