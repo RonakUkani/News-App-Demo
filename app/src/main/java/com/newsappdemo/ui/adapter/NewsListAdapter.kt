@@ -17,10 +17,13 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == Constants.TOP_NEWS){
-            TopNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_top_news, parent, false))
-        }else{
-            PopularNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_popular_news, parent, false))
+        return when (viewType) {
+            Constants.TOP_NEWS -> {
+                TopNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_top_news, parent, false))
+            }
+            else -> {
+                PopularNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_popular_news, parent, false))
+            }
         }
     }
 
@@ -51,10 +54,13 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(newsList[position].newsEnum == AppResponse.Article.NewsEnum.TOP_NEWS) {
-            Constants.TOP_NEWS
-        }else{
-            Constants.POPULAR_NEWS
+        return when (newsList[position].newsEnum) {
+            AppResponse.Article.NewsEnum.TOP_NEWS -> {
+                Constants.TOP_NEWS
+            }
+            else -> {
+                Constants.POPULAR_NEWS
+            }
         }
     }
 

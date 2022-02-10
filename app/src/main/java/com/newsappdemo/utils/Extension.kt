@@ -2,8 +2,11 @@
 
 package com.newsappdemo.utils
 
+import android.app.Activity
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -20,4 +23,8 @@ fun ImageView.loadImage(url: String?) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+}
+
+fun Activity.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
