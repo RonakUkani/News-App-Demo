@@ -4,7 +4,7 @@
 News-App-Demo is sample project of news app using open source api newsapi.org
 
 ### App Architecture
-News-App-Demo is implements MVVM architecture using Dagger, Retrofit and Kotlin coroutines. 
+News-App-Demo is implements MVVM architecture using Koin, Retrofit and Kotlin coroutines. 
 
 ### Libraries
 
@@ -14,7 +14,7 @@ News-App-Demo is implements MVVM architecture using Dagger, Retrofit and Kotlin 
 
 [Glide](https://github.com/bumptech/glide) is use for loading and caching images.
 
-[Dagger](https://developer.android.com/training/dependency-injection/dagger-android) is used for dependency injection.
+[Koin](https://github.com/InsertKoinIO/koin) Koin is a lightweight dependency injection framework for Kotlin. Koin is a DSL, a light container and a pragmatic API
 
 [Kotlin coroutines](https://developer.android.com/kotlin/coroutines) coroutine is used for concurrency design pattern that use to simplify code, that executes asynchronously.
 
@@ -23,7 +23,7 @@ News-App-Demo is implements MVVM architecture using Dagger, Retrofit and Kotlin 
 
 #### The app has following packages:
 1. **data**: It contains all the data accessing and manipulating components.
-2. **di**: Dependency providing classes using Dagger.
+2. **di**: Dependency providing classes using Kon.
 3. **ui**: View classes along with their corresponding ViewModel.
 3. **api**: It contains all the Retrofit related classes along with base api calling repository.
 4. **utils**: Utility classes.
