@@ -47,7 +47,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewNewsDescription"
-        style="@style/DescriptionTextView"
+        style="@style/RegularTextView"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:maxLines="2"
@@ -61,7 +61,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewBrandName"
-        style="@style/DescriptionTextView"
+        style="@style/RegularTextView"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/bg_rectangle_icon"

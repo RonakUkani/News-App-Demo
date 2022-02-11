@@ -9,4 +9,6 @@ object Constants {
     const val POPULAR_NEWS = 2
     const val NEWS_DETAIL = 3
     const val LOADING = 4
+
+    const val KEY_NEWS_DATA = "KEY_NEWS_DATA"
 }
