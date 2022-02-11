@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 class NewsListActivity : DaggerAppCompatActivity() {
     private lateinit var newsListViewModel: NewsListViewModel
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private var pageNumber = 1
@@ -29,14 +30,22 @@ class NewsListActivity : DaggerAppCompatActivity() {
     }
     private var isLoading = false
     private var isLastPage = false
-    lateinit var pagination : PaginationScrollListener
+    lateinit var pagination: PaginationScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
+
+        /**Here is the initialize the view model */
         newsListViewModel = viewModelProvider(viewModelFactory)
+
+        /**Here bind recyclerview Adapter for bind news list*/
         setAdapter()
-        newsListViewModel.getNewsList(pageNumber.toString())
+
+        /**Here call the api for getting news list*/
+        callNewsListApi()
+
+        /**Here observing api's live-data from viewmodel*/
         observeData()
     }
 
@@ -44,19 +53,24 @@ class NewsListActivity : DaggerAppCompatActivity() {
         recyclerViewNews.adapter = adapter
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerViewNews.layoutManager = linearLayoutManager
-        pagination  = object : PaginationScrollListener(linearLayoutManager) {
+
+        /**Here adding pagination in recyclerview*/
+        pagination = object : PaginationScrollListener(linearLayoutManager) {
             override fun loadMoreItems() {
                 isLoading = true
                 adapter.addLoading()
-                newsListViewModel.getNewsList(pageNumber.toString())
+                callNewsListApi()
             }
 
             override var isLastPage: Boolean = this@NewsListActivity.isLastPage
 
             override var isLoading: Boolean = this@NewsListActivity.isLoading
-
         }
         recyclerViewNews.addOnScrollListener(pagination)
+    }
+
+    private fun callNewsListApi() {
+        newsListViewModel.getNewsList(pageNumber.toString())
     }
 
     private fun openNewsDetailScreen(article: AppResponse.Article) {
@@ -66,11 +80,16 @@ class NewsListActivity : DaggerAppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeData() {
+        /**API Success live data*/
         newsListViewModel.newsListSuccess.observe(this, Observer {
-            if (pagination.isLoading){
+            if (pagination.isLoading) {
                 pagination.isLoading = false
                 adapter.removeLoading()
             }
+
+            /**Here is the logic of display Top news and popular news like,
+             * Here differentiate API response's like, first record is top news and another is popular news
+             * so pass that enum in model and later by forget in adapter with appropriate view*/
             if (it.status.equals("ok")) {
                 pageNumber += 1
                 if (newsList.isEmpty()) {
@@ -84,7 +103,7 @@ class NewsListActivity : DaggerAppCompatActivity() {
                     }
                 }
                 newsList.addAll(it?.articles!!)
-            }else{
+            } else {
                 pagination.isLoading = false
                 adapter.removeLoading()
                 pagination.isLastPage = true
@@ -92,8 +111,9 @@ class NewsListActivity : DaggerAppCompatActivity() {
             adapter.notifyDataSetChanged()
         })
 
+        /**API Failure live data*/
         newsListViewModel.newsListFailure.observe(this, Observer {
-            if (pageNumber > 1 && pagination.isLoading){
+            if (pageNumber > 1 && pagination.isLoading) {
                 pagination.isLoading = false
                 adapter.removeLoading()
             } else {

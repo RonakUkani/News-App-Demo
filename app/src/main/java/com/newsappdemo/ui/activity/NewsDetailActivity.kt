@@ -40,16 +40,28 @@ class NewsDetailActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_detail_activity)
+        /**Here is the initialize the view model */
         newsListViewModel = viewModelProvider(viewModelFactory)
+        bindData()
+
+        /**Here bind recyclerview Adapter for bind news list*/
+        setAdapter()
+
+        /**Here call the api for getting news list*/
+        callNewsListApi()
+
+        /**Here observing api's live-data from viewmodel*/
+        observeData()
+    }
+
+    private fun bindData() {
         textViewUrl.text = article.url
         imageviewBackArrow.setOnClickListener(this::onClick)
 
+        /**Here we hold article object from previous screen and this is the our news detail
+         * so puted in newsList and bind as a first item on recyclerview*/
         article.newsEnum = AppResponse.Article.NewsEnum.NEWS_DETAIL
         newsList.add(article)
-        setAdapter()
-
-        newsListViewModel.getNewsList(pageNumber.toString())
-        observeData()
     }
 
     private fun onClick(view: View) {
@@ -64,11 +76,13 @@ class NewsDetailActivity : DaggerAppCompatActivity() {
         recyclerViewNewsDetail.adapter = adapter
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerViewNewsDetail.layoutManager = linearLayoutManager
+
+        /**Here adding pagination in recyclerview*/
         pagination  = object : PaginationScrollListener(linearLayoutManager) {
             override fun loadMoreItems() {
                 isLoading = true
                 adapter.addLoading()
-                newsListViewModel.getNewsList(pageNumber.toString())
+                callNewsListApi()
             }
             override var isLastPage: Boolean = this@NewsDetailActivity.isLastPage
             override var isLoading: Boolean = this@NewsDetailActivity.isLoading
@@ -76,13 +90,20 @@ class NewsDetailActivity : DaggerAppCompatActivity() {
         recyclerViewNewsDetail.addOnScrollListener(pagination)
     }
 
+    private fun callNewsListApi() {
+        newsListViewModel.getNewsList(pageNumber.toString())
+    }
+
+
     @SuppressLint("NotifyDataSetChanged")
     private fun observeData() {
+        /**API Success live data*/
         newsListViewModel.newsListSuccess.observe(this, Observer {
             if (pagination.isLoading){
                 pagination.isLoading = false
                 adapter.removeLoading()
             }
+
             if (it.status.equals("ok")) {
                 pageNumber += 1
                 if (it.articles.size > 1 && pageNumber == 1) {
@@ -97,6 +118,7 @@ class NewsDetailActivity : DaggerAppCompatActivity() {
             adapter.notifyDataSetChanged()
         })
 
+        /**API Failure live data*/
         newsListViewModel.newsListFailure.observe(this, Observer {
             if (pageNumber > 1 && pagination.isLoading){
                 pagination.isLoading = false

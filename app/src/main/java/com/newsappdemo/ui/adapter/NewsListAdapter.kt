@@ -76,6 +76,7 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
         }
     }
 
+    /**Here bind all the views as per enum so, created all the row file according views*/
     override fun getItemViewType(position: Int): Int {
         return when (newsList[position].newsEnum) {
             AppResponse.Article.NewsEnum.TOP_NEWS -> {
@@ -93,11 +94,13 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
         }
     }
 
+    /**Here add footer loader when pagination api call initiate*/
     fun addLoading() {
         newsList.add(AppResponse.Article(newsEnum = AppResponse.Article.NewsEnum.LOADING))
         notifyItemInserted(newsList.size - 1)
     }
 
+    /**Here remove footer loader after pagination api call response*/
     fun removeLoading() {
         val position: Int = newsList.size - 1
         newsList.removeAt(position)

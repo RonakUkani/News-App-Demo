@@ -20,8 +20,7 @@ open class CommonRepository @Inject constructor(
         page: String,
         viewModelScope: CoroutineScope,
         newsListSuccess: MutableLiveData<AppResponse>,
-        newsListFailure: MutableLiveData<String>,
-    ) {
+        newsListFailure: MutableLiveData<String>, ) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 apiService.getNewsList(Constants.KEY_COUNTRY,
