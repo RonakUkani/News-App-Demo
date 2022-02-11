@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:elevation="@dimen/_10sdp"
+    android:layout_height="wrap_content"
+    android:foregroundGravity="bottom"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:cropToPadding="true"
+        android:padding="@dimen/_10sdp"
+        android:id="@+id/imageviewBackArrow"
+        app:srcCompat="@drawable/img_back_arrow" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewUrl"
+        style="@style/RegularTextView"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:textSize="@dimen/_12ssp"
+        android:singleLine="true"
+        tools:text="www.xyz123….net" />
+
+
+</androidx.appcompat.widget.Toolbar>

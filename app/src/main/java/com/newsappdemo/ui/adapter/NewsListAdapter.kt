@@ -1,14 +1,17 @@
 package com.newsappdemo.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebViewClient
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.newsappdemo.R
 import com.newsappdemo.data.AppResponse
 import com.newsappdemo.utils.Constants
 import com.newsappdemo.utils.loadImage
+import kotlinx.android.synthetic.main.row_news_detail.view.*
 import kotlinx.android.synthetic.main.row_popular_news.view.*
 import kotlinx.android.synthetic.main.row_top_news.view.*
 
@@ -21,6 +24,9 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
             Constants.TOP_NEWS -> {
                 TopNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_top_news, parent, false))
             }
+            Constants.NEWS_DETAIL -> {
+                NewsDetailViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_news_detail, parent, false))
+            }
             else -> {
                 PopularNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_popular_news, parent, false))
             }
@@ -29,6 +35,7 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
 
     override fun getItemCount(): Int = newsList.size
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val news = newsList[position]
         if (holder is TopNewsViewHolder) {
@@ -47,6 +54,17 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
                 it.textViewPopularNews.isGone = !news.isShowTitle
                 it.viewPopularNews.isGone = !news.isShowTitle
             }
+        } else if (holder is NewsDetailViewHolder) {
+            holder.itemView.let {
+                it.imageViewNewsDetailHeadline.loadImage(newsList[position].urlToImage)
+                it.textViewNewsDetailHeadline.text = news.title
+                it.textViewNewsDetailBrandName.text = news.source?.name
+                it.webViewContent.webViewClient = WebViewClient()
+                it.webViewContent.settings.javaScriptEnabled = true
+                it.webViewContent.settings.allowContentAccess = true
+                it.webViewContent.settings.domStorageEnabled = true
+                it.webViewContent.loadData(news.content!!,"text/html" , "utf-8")
+            }
         }
         holder.itemView.setOnClickListener {
             callback(newsList[position])
@@ -58,6 +76,9 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
             AppResponse.Article.NewsEnum.TOP_NEWS -> {
                 Constants.TOP_NEWS
             }
+            AppResponse.Article.NewsEnum.NEWS_DETAIL -> {
+                Constants.NEWS_DETAIL
+            }
             else -> {
                 Constants.POPULAR_NEWS
             }
@@ -67,5 +88,6 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
 
     inner class TopNewsViewHolder(v: View) : RecyclerView.ViewHolder(v)
     inner class PopularNewsViewHolder(v: View) : RecyclerView.ViewHolder(v)
+    inner class NewsDetailViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }
