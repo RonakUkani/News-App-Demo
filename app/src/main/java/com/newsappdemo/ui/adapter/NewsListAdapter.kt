@@ -66,7 +66,9 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
                 it.webViewContent.settings.javaScriptEnabled = true
                 it.webViewContent.settings.allowContentAccess = true
                 it.webViewContent.settings.domStorageEnabled = true
-                it.webViewContent.loadData(news.content!!,"text/html" , "utf-8")
+                if (news.content != null) {
+                    it.webViewContent.loadData(news.content, "text/html", "utf-8")
+                }
             }
         }
         holder.itemView.setOnClickListener {

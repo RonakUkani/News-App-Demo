@@ -84,6 +84,7 @@ class NewsDetailActivity : DaggerAppCompatActivity() {
                 adapter.removeLoading()
             }
             if (it.status.equals("ok")) {
+                pageNumber += 1
                 if (it.articles.size > 1 && pageNumber == 1) {
                     it.articles[0].isShowTitle = true
                 }
