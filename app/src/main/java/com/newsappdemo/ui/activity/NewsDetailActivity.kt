@@ -99,11 +99,11 @@ class NewsDetailActivity : AppCompatActivity() {
             }
 
             if (it.status.equals("ok")) {
-                pageNumber += 1
                 if (it.articles.size > 1 && pageNumber == 1) {
                     it.articles[0].isShowTitle = true
                 }
                 newsList.addAll(it?.articles!!)
+                pageNumber += 1
             } else {
                 pagination.isLoading = false
                 adapter.removeLoading()

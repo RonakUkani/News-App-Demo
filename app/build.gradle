@@ -34,7 +34,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    android.testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
 }
+
 
 dependencies {
 
@@ -71,5 +78,13 @@ dependencies {
     implementation "org.koin:koin-android:$rootProject.koinVersion"
     implementation "org.koin:koin-androidx-viewmodel:$rootProject.koinVersion"
     implementation "org.koin:koin-androidx-scope:$rootProject.koinVersion"
+
+
+    testImplementation "io.insert-koin:koin-test:$rootProject.koinVersion"
+    testImplementation "io.insert-koin:koin-test-junit4:$rootProject.koinVersion"
+
+    testImplementation "io.kotest:kotest-runner-junit5:$rootProject.kotestRunner"
+    testImplementation "io.kotest.extensions:kotest-extensions-koin:$rootProject.kotestExtension"
+
 
 }

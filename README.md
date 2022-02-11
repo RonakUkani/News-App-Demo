@@ -18,6 +18,11 @@ News-App-Demo is implements MVVM architecture using Koin, Retrofit and Kotlin co
 
 [Kotlin coroutines](https://developer.android.com/kotlin/coroutines) coroutine is used for concurrency design pattern that use to simplify code, that executes asynchronously.
 
+
+## :camera_flash: Screenshots
+<!-- You can add more screenshots here if you like -->
+<img src="/gif/NewsList.png" width="300">&emsp;<img src="/gif/NewsDetail.png" width="300">
+
 ## :camera_flash: Preview
 <img src="/gif/news-app-demo.gif" width="300">
 
