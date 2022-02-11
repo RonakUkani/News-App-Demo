@@ -8,13 +8,8 @@ import com.newsappdemo.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-open class CommonRepository @Inject constructor(
-    var context: Context, private val apiService: ApiService,
-) : BaseDataSource(context) {
+open class CommonRepository constructor(var context: Context, private val apiService: ApiService) : BaseDataSource(context) {
 
     fun getNewsList(
         page: String,

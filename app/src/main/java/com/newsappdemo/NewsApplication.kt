@@ -1,17 +1,18 @@
 package com.newsappdemo
-import com.newsappdemo.di.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
 
-class NewsApplication : DaggerApplication() {
+import android.app.Application
+import com.newsappdemo.di.*
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+
+class NewsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        startKoin {
+            androidContext(this@NewsApplication)
+            modules(listOf(viewModelModule, repositoryModule, apiModule, retrofitModule))
+        }
     }
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.factory().create(this)
-    }
-
 
 }

@@ -3,8 +3,8 @@ package com.newsappdemo.ui.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.newsappdemo.R
 import com.newsappdemo.data.AppResponse
@@ -12,17 +12,14 @@ import com.newsappdemo.ui.adapter.NewsListAdapter
 import com.newsappdemo.utils.Constants
 import com.newsappdemo.utils.PaginationScrollListener
 import com.newsappdemo.utils.showToast
-import com.newsappdemo.utils.viewModelProvider
 import com.newsappdemo.viewmodel.NewsListViewModel
-import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_news_list.*
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewsListActivity : DaggerAppCompatActivity() {
-    private lateinit var newsListViewModel: NewsListViewModel
+class NewsListActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val newsListViewModel by viewModel<NewsListViewModel>()
+
     private var pageNumber = 1
     private var newsList: MutableList<AppResponse.Article> = mutableListOf()
     private val adapter = NewsListAdapter(newsList) {
@@ -35,9 +32,6 @@ class NewsListActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
-
-        /**Here is the initialize the view model */
-        newsListViewModel = viewModelProvider(viewModelFactory)
 
         /**Here bind recyclerview Adapter for bind news list*/
         setAdapter()
