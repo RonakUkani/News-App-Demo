@@ -27,6 +27,9 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
             Constants.NEWS_DETAIL -> {
                 NewsDetailViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_news_detail, parent, false))
             }
+            Constants.LOADING -> {
+                LoaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_loading, parent, false))
+            }
             else -> {
                 PopularNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_popular_news, parent, false))
             }
@@ -76,6 +79,9 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
             AppResponse.Article.NewsEnum.TOP_NEWS -> {
                 Constants.TOP_NEWS
             }
+            AppResponse.Article.NewsEnum.LOADING -> {
+                Constants.LOADING
+            }
             AppResponse.Article.NewsEnum.NEWS_DETAIL -> {
                 Constants.NEWS_DETAIL
             }
@@ -85,9 +91,20 @@ class NewsListAdapter(private var newsList: MutableList<AppResponse.Article>, va
         }
     }
 
+    fun addLoading() {
+        newsList.add(AppResponse.Article(newsEnum = AppResponse.Article.NewsEnum.LOADING))
+        notifyItemInserted(newsList.size - 1)
+    }
+
+    fun removeLoading() {
+        val position: Int = newsList.size - 1
+        newsList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
 
     inner class TopNewsViewHolder(v: View) : RecyclerView.ViewHolder(v)
     inner class PopularNewsViewHolder(v: View) : RecyclerView.ViewHolder(v)
     inner class NewsDetailViewHolder(v: View) : RecyclerView.ViewHolder(v)
-
+    inner class LoaderViewHolder(v: View) : RecyclerView.ViewHolder(v)
 }

@@ -21,7 +21,7 @@ abstract class PaginationScrollListener(private val layoutManager: LinearLayoutM
     }
 
     protected abstract fun loadMoreItems()
-    abstract val isLastPage: Boolean
-    abstract val isLoading: Boolean
+    abstract var isLastPage: Boolean
+    abstract var isLoading: Boolean
 
 }

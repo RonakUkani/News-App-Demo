@@ -29,6 +29,7 @@ class NewsListActivity : DaggerAppCompatActivity() {
     }
     private var isLoading = false
     private var isLastPage = false
+    lateinit var pagination : PaginationScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,20 +44,19 @@ class NewsListActivity : DaggerAppCompatActivity() {
         recyclerViewNews.adapter = adapter
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerViewNews.layoutManager = linearLayoutManager
-
-        recyclerViewNews.addOnScrollListener(object : PaginationScrollListener(linearLayoutManager) {
+        pagination  = object : PaginationScrollListener(linearLayoutManager) {
             override fun loadMoreItems() {
                 isLoading = true
-                pageNumber += 1
+                adapter.addLoading()
                 newsListViewModel.getNewsList(pageNumber.toString())
-                isLoading = false
             }
 
             override var isLastPage: Boolean = this@NewsListActivity.isLastPage
 
             override var isLoading: Boolean = this@NewsListActivity.isLoading
 
-        })
+        }
+        recyclerViewNews.addOnScrollListener(pagination)
     }
 
     private fun openNewsDetailScreen(article: AppResponse.Article) {
@@ -67,10 +67,12 @@ class NewsListActivity : DaggerAppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun observeData() {
         newsListViewModel.newsListSuccess.observe(this, Observer {
-            if (pageNumber > 1){
-                this@NewsListActivity.isLoading = false
+            if (pagination.isLoading){
+                pagination.isLoading = false
+                adapter.removeLoading()
             }
             if (it.status.equals("ok")) {
+                pageNumber += 1
                 if (newsList.isEmpty()) {
                     for (i in 0 until it.articles.size) {
                         if (i == 0) {
@@ -83,18 +85,21 @@ class NewsListActivity : DaggerAppCompatActivity() {
                 }
                 newsList.addAll(it?.articles!!)
             }else{
-                isLastPage = true
+                pagination.isLoading = false
+                adapter.removeLoading()
+                pagination.isLastPage = true
             }
             adapter.notifyDataSetChanged()
         })
 
         newsListViewModel.newsListFailure.observe(this, Observer {
-            if (pageNumber > 1) {
-                this@NewsListActivity.isLoading = false
+            if (pageNumber > 1 && pagination.isLoading){
+                pagination.isLoading = false
+                adapter.removeLoading()
             } else {
                 showToast(it)
             }
-            isLastPage = true
+            pagination.isLastPage = true
         })
     }
 }

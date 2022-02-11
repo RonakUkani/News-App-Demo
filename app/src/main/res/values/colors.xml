@@ -13,4 +13,5 @@
     <color name="color_news_brand_text">#575757</color>
     <color name="color_news_assets_behind_drawable">#F3F3F3</color>
     <color name="color_view_divide_popular_news">#D9D9D9</color>
+    <color name="color_loading">#5305FF</color>
 </resources>

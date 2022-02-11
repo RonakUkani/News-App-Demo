@@ -11,6 +11,7 @@ import com.newsappdemo.data.AppResponse
 import com.newsappdemo.ui.adapter.NewsListAdapter
 import com.newsappdemo.utils.Constants
 import com.newsappdemo.utils.PaginationScrollListener
+import com.newsappdemo.utils.showToast
 import com.newsappdemo.utils.viewModelProvider
 import com.newsappdemo.viewmodel.NewsListViewModel
 import dagger.android.support.DaggerAppCompatActivity
@@ -27,6 +28,7 @@ class NewsDetailActivity : DaggerAppCompatActivity() {
     private val adapter = NewsListAdapter(newsList) {}
     private var isLoading = false
     private var isLastPage = false
+    lateinit var pagination : PaginationScrollListener
     private val article : AppResponse.Article by lazy {
         return@lazy if (intent?.hasExtra(Constants.KEY_NEWS_DATA)!!){
             intent?.getParcelableExtra(Constants.KEY_NEWS_DATA)!!
@@ -62,23 +64,24 @@ class NewsDetailActivity : DaggerAppCompatActivity() {
         recyclerViewNewsDetail.adapter = adapter
         val linearLayoutManager = LinearLayoutManager(this)
         recyclerViewNewsDetail.layoutManager = linearLayoutManager
-        recyclerViewNewsDetail.addOnScrollListener(object : PaginationScrollListener(linearLayoutManager) {
+        pagination  = object : PaginationScrollListener(linearLayoutManager) {
             override fun loadMoreItems() {
                 isLoading = true
-                pageNumber += 1
+                adapter.addLoading()
                 newsListViewModel.getNewsList(pageNumber.toString())
-                isLoading = false
             }
             override var isLastPage: Boolean = this@NewsDetailActivity.isLastPage
             override var isLoading: Boolean = this@NewsDetailActivity.isLoading
-        })
+        }
+        recyclerViewNewsDetail.addOnScrollListener(pagination)
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeData() {
         newsListViewModel.newsListSuccess.observe(this, Observer {
-            if (pageNumber > 1) {
-                this@NewsDetailActivity.isLoading = false
+            if (pagination.isLoading){
+                pagination.isLoading = false
+                adapter.removeLoading()
             }
             if (it.status.equals("ok")) {
                 if (it.articles.size > 1 && pageNumber == 1) {
@@ -86,16 +89,21 @@ class NewsDetailActivity : DaggerAppCompatActivity() {
                 }
                 newsList.addAll(it?.articles!!)
             } else {
-                isLastPage = true
+                pagination.isLoading = false
+                adapter.removeLoading()
+                pagination.isLastPage = true
             }
             adapter.notifyDataSetChanged()
         })
 
         newsListViewModel.newsListFailure.observe(this, Observer {
-            if (pageNumber > 1) {
-                this@NewsDetailActivity.isLoading = false
+            if (pageNumber > 1 && pagination.isLoading){
+                pagination.isLoading = false
+                adapter.removeLoading()
+            } else {
+                showToast(it)
             }
-            isLastPage = true
+            pagination.isLastPage = true
         })
     }
 
